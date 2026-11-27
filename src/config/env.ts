@@ -8,9 +8,13 @@ function required(name: string, value?: string) {
   return value;
 }
 
-export const ORANGEHRM_BASE_URL = (() => {
-  return required('ORANGEHRM_BASE_URL', process.env.ORANGEHRM_BASE_URL);
-})();
+const baseURL = required('ORANGEHRM_BASE_URL', process.env.ORANGEHRM_BASE_URL);
+const parsedBaseURL = URL.canParse(baseURL) ? new URL(baseURL) : undefined;
+if (parsedBaseURL?.protocol !== 'https:' && parsedBaseURL?.protocol !== 'http:') {
+  throw new Error('ORANGEHRM_BASE_URL must be an absolute HTTP or HTTPS URL');
+}
+parsedBaseURL.pathname = `${parsedBaseURL.pathname.replace(/\/+$/, '')}/`;
+export const ORANGEHRM_BASE_URL = parsedBaseURL.href;
 
 export const ORANGEHRM_USERNAME = (() => {
   return required('ORANGEHRM_USERNAME', process.env.ORANGEHRM_USERNAME);

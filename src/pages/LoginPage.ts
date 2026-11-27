@@ -1,16 +1,15 @@
 import { Page, expect } from '@playwright/test';
-import env from '../config/env';
 
 export class LoginPage {
   readonly page: Page;
-  readonly loginPath = '/web/index.php/auth/login';
+  readonly loginPath = 'web/index.php/auth/login';
 
   constructor(page: Page) {
     this.page = page;
   }
 
   async navigate() {
-    await this.page.goto(`${env.ORANGEHRM_BASE_URL}${this.loginPath}`);
+    await this.page.goto(this.loginPath);
   }
 
   async isDisplayed() {
@@ -21,10 +20,7 @@ export class LoginPage {
   }
 
   async login(username: string, password: string) {
-    await this.page.getByPlaceholder('Username').fill(username);
-    await this.page.getByPlaceholder('Password').fill(password);
-    await this.page.getByRole('button', { name: 'Login' }).click();
-    await this.page.waitForLoadState('networkidle');
+    await this.submitCredentials(username, password);
   }
 
   // Submit credentials without waiting for a full network idle state.
