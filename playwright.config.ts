@@ -1,12 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import { ORANGEHRM_BASE_URL } from './src/config/env';
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -26,10 +19,12 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: process.env.ORANGEHRM_BASE_URL || '',
+    baseURL: ORANGEHRM_BASE_URL,
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    /* Retain failure artifacts in CI. */
+    trace: process.env.CI ? 'retain-on-failure' : 'on-first-retry',
+    screenshot: process.env.CI ? 'only-on-failure' : 'off',
+    video: process.env.CI ? 'retain-on-failure' : 'off',
   },
 
   /* Configure projects for major browsers */

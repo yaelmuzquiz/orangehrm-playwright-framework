@@ -7,6 +7,8 @@
     "test": "playwright test",
     "test:ui": "playwright test tests/ui",
     "test:smoke": "playwright test --grep @smoke",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
     "report": "playwright show-report"
   },
   "keywords": [],
@@ -16,6 +18,9 @@
   "devDependencies": {
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.1",
-    "dotenv": "^17.4.2"
+    "dotenv": "^17.4.2",
+    "eslint": "^10.16.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.74.0"
   }
 }

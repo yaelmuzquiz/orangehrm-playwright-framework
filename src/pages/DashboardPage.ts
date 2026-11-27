@@ -1,5 +1,4 @@
 import { Page, expect } from '@playwright/test';
-import env from '../config/env';
 
 export class DashboardPage {
   readonly page: Page;
